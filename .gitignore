@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project local
+.env
+backend/.venv/
+firmware/.pio/
+secrets.h

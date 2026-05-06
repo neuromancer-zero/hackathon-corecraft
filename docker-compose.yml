@@ -1,0 +1,39 @@
+services:
+  bitcoind:
+    image: bitcoin/bitcoin:26.0
+    restart: unless-stopped
+    command:
+      - -printtoconsole
+      - -testnet
+      - -server=1
+      - -rpcuser=user
+      - -rpcpassword=pass
+      - -rpcallowip=0.0.0.0/0
+      - -rpcbind=0.0.0.0
+      - -txindex=1
+      - -zmqpubhashblock=tcp://0.0.0.0:28332
+      - -zmqpubhashtx=tcp://0.0.0.0:28333
+    ports:
+      - "18332:18332"
+      - "28332:28332"
+      - "28333:28333"
+    volumes:
+      - bitcoind_data:/home/bitcoin/.bitcoin
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      - bitcoind
+    ports:
+      - "8000:8000"
+    environment:
+      BITCOIND_RPC_URL: http://user:pass@bitcoind:18332
+      BITCOIND_ZMQ_HASHBLOCK: tcp://bitcoind:28332
+      BITCOIND_ZMQ_HASHTX: tcp://bitcoind:28333
+      PRICE_CACHE_SECONDS: "30"
+      TX_CONFIRMATIONS_TARGET: "1"
+      LOG_LEVEL: INFO
+
+volumes:
+  bitcoind_data:
