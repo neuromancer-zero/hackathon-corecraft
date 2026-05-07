@@ -68,7 +68,7 @@ def watch_tx(req: WatchRequest):
     return {"message": "monitorando", "txid": txid}
 
 
-@router.get("/tx/status", response_model=TxStatus)
+@router.get("/tx/status/{txid}", response_model=TxStatus)
 def tx_status(txid: str):
     """ESP consulta o status de um txid (usado no polling)."""
     txid = txid.strip()
