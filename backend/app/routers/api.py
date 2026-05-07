@@ -4,6 +4,8 @@ import time
 
 import httpx
 from fastapi import APIRouter
+from pydantic import BaseModel
+from typing import Optional
 from loguru import logger
 
 from app.config import settings
