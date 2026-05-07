@@ -54,7 +54,7 @@ async def api_health() -> dict:
     return {"rpc": rpc_ok, "zmq": hub.zmq_connected}
 
 
-@app.post("/tx/watch", status_code=201)
+@router.post("/tx/watch", status_code=201)
 def watch_tx(req: WatchRequest):
     """ESP registra um txid para monitorar."""
     txid = req.txid.strip()
@@ -68,7 +68,7 @@ def watch_tx(req: WatchRequest):
     return {"message": "monitorando", "txid": txid}
 
 
-@app.get("/tx/status", response_model=TxStatus)
+@router.get("/tx/status", response_model=TxStatus)
 def tx_status(txid: str):
     """ESP consulta o status de um txid (usado no polling)."""
     txid = txid.strip()
@@ -109,7 +109,7 @@ def tx_status(txid: str):
     )
 
 
-@app.get("/tx/list")
+@router.get("/tx/list")
 def list_watched():
     """Utilitário — lista txids sendo monitorados."""
     return watched
