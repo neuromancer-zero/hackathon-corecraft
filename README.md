@@ -20,7 +20,7 @@ cd backend
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env   # edit RPC/ZMQ URLs if needed
-python3 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+python3 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 3000
 ```
 
 JSON-RPC uses **async `httpx`** (instead of `python-bitcoinrpc`) so WebSocket + ZMQ fan-out never block the event loop.
