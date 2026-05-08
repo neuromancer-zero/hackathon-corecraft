@@ -83,8 +83,10 @@ def tx_status(txid: str):
 
     if tx is None:
         return TxStatus(txid=txid, status="not_found")
+    
+    logger.info(f"tx: {tx}")
 
-    if "confirmations" not in tx.keys():
+    if not isinstance(tx, dict) or "confirmations" not in tx.keys():
         return TxStatus(txid=txid, status="pending", confirmations=0)
 
     # Busca altura do bloco
