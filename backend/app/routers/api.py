@@ -76,7 +76,7 @@ def tx_status(txid: str):
 
     try:
         # verbose=True retorna detalhes completos incluindo blockhash
-        tx = rpc.get_raw_transaction_verbose(txid)
+        tx = json.loads(rpc.get_raw_transaction_verbose(txid))
     except JSONRPCException as e:
         if "No such mempool" in str(e) or "not found" in str(e).lower():
             return TxStatus(txid=txid, status="not_found")
@@ -87,7 +87,10 @@ def tx_status(txid: str):
     
     logger.info(f"tx: {tx}")
 
-    confirmations = tx.get("confirmations", 0)
+    if "confirmations" in tx:
+        confirmations = tx["confirmations"]
+    else:
+        confirmations = 0
 
     if confirmations == 0:
         return TxStatus(txid=txid, status="pending", confirmations=0)
