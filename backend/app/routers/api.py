@@ -87,7 +87,7 @@ def tx_status(txid: str):
     
     logger.info(f"tx: {tx}")
 
-    if not tx.keys():
+    if "confirmations" not in tx:
         return TxStatus(txid=txid, status="pending", confirmations=0)
 
     # Busca altura do bloco
