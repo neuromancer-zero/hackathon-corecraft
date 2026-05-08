@@ -81,6 +81,9 @@ def tx_status(txid: str):
             return TxStatus(txid=txid, status="not_found")
         raise HTTPException(status_code=502, detail=f"RPC error: {e}")
 
+    if tx is None:
+        return TxStatus(txid=txid, status="not_found")
+
     confirmations = tx.get("confirmations", 0)
 
     if confirmations == 0:
