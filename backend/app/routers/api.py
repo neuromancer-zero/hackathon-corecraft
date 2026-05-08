@@ -69,7 +69,7 @@ def watch_tx(req: WatchRequest):
 
 
 @router.get("/tx/status/{txid}", response_model=TxStatus)
-def tx_status(txid: str):
+async def tx_status(txid: str):
     """ESP consulta o status de um txid (usado no polling)."""
     txid = txid.strip()
 
