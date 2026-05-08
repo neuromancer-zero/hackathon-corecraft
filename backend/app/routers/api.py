@@ -84,9 +84,7 @@ def tx_status(txid: str):
     if tx is None:
         return TxStatus(txid=txid, status="not_found")
 
-    confirmations = tx.get("confirmations", 0)
-
-    if confirmations == 0:
+    if "confirmations" not in tx.keys():
         return TxStatus(txid=txid, status="pending", confirmations=0)
 
     # Busca altura do bloco
