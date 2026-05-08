@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import time
-import json
 import httpx
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -76,7 +75,7 @@ def tx_status(txid: str):
 
     try:
         # verbose=True retorna detalhes completos incluindo blockhash
-        tx = json.loads(rpc.get_raw_transaction_verbose(txid))
+        tx = await rpc.get_raw_transaction_verbose(txid)
     except JSONRPCException as e:
         if "No such mempool" in str(e) or "not found" in str(e).lower():
             return TxStatus(txid=txid, status="not_found")
