@@ -7,6 +7,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Optional
 from loguru import logger
+from datetime import datetime
 
 from app.config import settings
 from app.services import rpc
@@ -86,7 +87,7 @@ def tx_status(txid: str):
     
     logger.info(f"tx: {tx}")
 
-    if not isinstance(tx, dict) or "confirmations" not in tx.keys():
+    if not tx.keys():
         return TxStatus(txid=txid, status="pending", confirmations=0)
 
     # Busca altura do bloco
